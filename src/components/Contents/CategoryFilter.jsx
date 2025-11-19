@@ -5,7 +5,7 @@ import ToggleInput from "../input-bar/ToggleInput";
 import ItemList from "../ItemList";
 import { useState } from "react";
 
-const CategoryFilter = ({ position }) => {
+const CategoryFilter = () => {
   const location = useLocation();
 
   // 카테고리 값

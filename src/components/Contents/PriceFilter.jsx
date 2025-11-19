@@ -5,7 +5,7 @@ import PriceBracketInput from "../input-bar/PriceBracketInput";
 import ItemList from "../ItemList";
 import { useLocation } from "react-router-dom";
 
-const PriceFilter = ({ position }) => {
+const PriceFilter = () => {
   const location = useLocation();
   // 검색된 가격
   const [lowPrice, setLowPrice] = useState(0);

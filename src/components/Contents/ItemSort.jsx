@@ -5,7 +5,7 @@ import ToggleInput from "../input-bar/ToggleInput";
 import ItemList from "../ItemList";
 import { useState } from "react";
 
-const ItemSort = ({ position }) => {
+const ItemSort = () => {
   const location = useLocation();
 
   // 정렬 값 - 이름(가나다순), 가격

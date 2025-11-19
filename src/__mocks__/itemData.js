@@ -80,7 +80,7 @@ export const sortedData = [
     quantity: 13,
   },
   {
-    id: 2,
+    id: 3,
     itemName: "다라",
     price: 200,
     quantity: 13,

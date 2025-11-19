@@ -18,6 +18,23 @@ export async function fetchItemData({ setItems }) {
   }
 }
 
+// const API_URL = import.meta.env.VITE_API_URL;
+
+// export async function fetchItemData({setItems}) {
+//   const res = await fetch(`${API_URL}/item-list`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     }
+//   });
+
+//   if (!res.ok) {
+//     throw new Error(`Failed to fetch Item Data: ${res.status}`);
+//   }
+//   const json = await res.json();
+//   console.log(json.data);
+// }
+
 // 검색 된 하나의 상품
 // mockData - searchedData
 //   {
