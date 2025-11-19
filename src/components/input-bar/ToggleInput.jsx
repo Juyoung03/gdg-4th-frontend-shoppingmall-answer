@@ -78,9 +78,7 @@ const ToggleInput = ({
             ))}
           </div>
         ) : null}
-        {active &&
-        (location.pathname === "/category" ||
-          location.pathname === "/admin") ? (
+        {active && location.pathname === "/admin" ? (
           <div className="absolute top-full left-0">
             {categoryList.map(cat => (
               <div

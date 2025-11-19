@@ -4,13 +4,11 @@ import ItemList from "../ItemList";
 import SearchInput from "../input-bar/SearchInput";
 import { useState } from "react";
 import { useEffect } from "react";
-import baseApi from "../../api/baseApi";
+const API_URL = import.meta.env.VITE_API_URL;
 
-const ApiDefaultContents = ({ position }) => {
+const ApiDefaultContents = () => {
   // 검색어 (상품명명)
   const [itemName, setitemName] = useState("");
-  // 유저 이름
-  const [userName, setUserName] = useState("홍길동");
 
   // 검색 버튼이 클릭되었는지. 검색 여부
   const [searchClicked, setSearchClicked] = useState(false);
@@ -21,19 +19,27 @@ const ApiDefaultContents = ({ position }) => {
 
   // ----------------------------------------------------------
   const showItems = searchClicked ? searchResult : allItems;
-  console.log(showItems);
+  //console.log(showItems);
   const isEmpty = showItems.length === 0;
 
   // 전체 상품 불러오기 api------------------------------------
   useEffect(() => {
     async function fetchAllItems() {
       try {
-        const response = await baseApi.get("/items");
-        console.log(response.data);
-        setAllItems(response.data);
-        console.log("전체 데이터 가져오기 성공");
+        const res = await fetch(`${API_URL}/items`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch items: ${res.status}`);
+        }
+        const jsonData = await res.json();
+        console.log(jsonData.data);
       } catch (error) {
-        console.error("전체 데이터 가져오기 실패:", error);
+        console.log("데이터 fetch 실패: ", error.message || null);
       }
     }
     fetchAllItems();
@@ -45,20 +51,24 @@ const ApiDefaultContents = ({ position }) => {
   // 검색 api -------------------------------------------------------------
   // 클릭되면 searchClicked를 true로 설정
   async function handleSearch(queryItemName) {
-    console.log("검색 클릭됨");
+    console.log("검색 버튼 클릭");
     setSearchClicked(true);
     console.log(queryItemName);
 
-    // 검색한 name을 서버에 전송
-    // 검색이 안되면 빈 배열을 반환
     try {
-      const response = await baseApi.post("/items/search", {
-        userName,
-        position,
-        itemName,
+      const res = await fetch(`${API_URL}/items/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemName: itemName }),
       });
 
-      const data = response.data;
+      if (!res.ok) {
+        throw new Error(`Failed to search items: ${res.status}`);
+      }
+
+      const data = await res.json();
 
       if (isEmptyObject(data)) {
         setSearchResult([]); // 검색 결과 없음
@@ -67,7 +77,7 @@ const ApiDefaultContents = ({ position }) => {
       }
 
       // setSearchResult(response.data ? [response.data] : []);
-      console.log("검색 반환 데이터: ", response.data);
+      console.log("검색 반환 데이터: ", data);
       console.log("검색어 보내기 성공");
     } catch (error) {
       console.log("Error POST data: ", error);
